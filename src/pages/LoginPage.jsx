@@ -1,155 +1,148 @@
 // src/pages/LoginPage.jsx
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import videoFile from "../images/hero.mp4"; // your video file path
 
 const bannerImage =
-  'https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?q=80&w=1600&auto=format&fit=crop'; // replace with your image
+  "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?q=80&w=1600&auto=format&fit=crop";
 
 const LoginPage = () => {
   const [isLoginView, setIsLoginView] = useState(true);
 
-  const handleLogin = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Logging in...');
-  };
-
-  const handleSignUp = (e) => {
-    e.preventDefault();
-    console.log('Signing up...');
   };
 
   return (
-    <div className="bg-gray-50">
-      <div className="max-w-5xl mx-auto px-4 md:px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          {/* LEFT: Image with grey overlay, fixed height (not too long) */}
-          <div className="relative rounded-2xl overflow-hidden bg-gray-100 h-72 md:h-[520px]">
-            <img
-              src={bannerImage}
-              alt="KYRO skincare banner"
-              className="h-full w-full object-cover"
-            />
-            {/* Grey overlay to match the page background vibe */}
-            <div className="absolute inset-0 bg-gray-200/50" />
-            {/* Optional subtle brand mark */}
-            <div className="absolute bottom-4 left-4 text-gray-800">
-              <h1 className="text-4xl font-signerica tracking-tight">KYRO</h1>
-            </div>
-          </div>
+    <div className="min-h-screen flex flex-col md:flex-row bg-[#F4F3F1] overflow-hidden relative">
+      {/* LEFT IMAGE (hidden on mobile) */}
+      <div className="relative hidden md:block w-1/2 h-screen overflow-hidden">
+        <img
+          src={bannerImage}
+          alt="Banner"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/10" />
+        <div className="absolute bottom-12 left-10 text-white text-4xl font-light leading-snug max-w-sm drop-shadow-lg">
+          It’s time to invest in your <strong>SKIN.</strong>
+        </div>
+      </div>
 
-          {/* RIGHT: Auth panel on the same grey background */}
-          <div className="bg-gray-50">
-            {isLoginView ? (
-              <>
-                <h2 className="text-2xl font-light text-gray-900">Sign In</h2>
-                <form onSubmit={handleLogin} className="mt-6 space-y-4">
-                  <div>
-                    <label className="sr-only" htmlFor="email">Email</label>
-                    <input
-                      id="email"
-                      type="email"
-                      placeholder="Email"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 bg-white"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="sr-only" htmlFor="password">Password</label>
-                    <input
-                      id="password"
-                      type="password"
-                      placeholder="Password"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 bg-white"
-                      required
-                    />
-                  </div>
+      {/* RIGHT SIDE (form + video background) */}
+      <div className="relative w-full md:w-1/2 flex items-center justify-center px-6 md:px-12 overflow-hidden min-h-screen">
+        {/* VIDEO BACKGROUND */}
+        <video
+          src={videoFile}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="pointer-events-none absolute inset-0 w-full h-full object-cover blur-sm opacity-60"
+        />
 
-                  {/* Actions */}
-                  <div className="flex items-center justify-between">
-                    {/* Transparent + small */}
-                    <button
-                      type="submit"
-                      className="inline-flex items-center justify-center rounded-md border border-gray-300 bg-transparent px-4 py-2 text-xs font-bold uppercase tracking-wider text-gray-900 hover:bg-gray-100 transition-colors"
-                    >
-                      Sign In
-                    </button>
+        {/* Soft overlay for readability */}
+        <div className="pointer-events-none absolute inset-0 bg-[#F4F3F1]/40 backdrop-blur-[1px]" />
 
-                    <Link
-                      to="/account/forgot"
-                      className="text-sm text-gray-600 hover:text-gray-900 underline"
-                    >
-                      Forgot password?
-                    </Link>
-                  </div>
-                </form>
+        {/* FORM CONTAINER */}
+        <div className="relative w-full max-w-sm md:max-w-md z-10 py-10 md:py-0">
+          {isLoginView ? (
+            <>
+              <h2 className="text-3xl font-semibold text-gray-800 mb-8 text-center">
+                Login
+              </h2>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <input
+                  type="email"
+                  placeholder="Email"
+                  className="w-full border border-gray-300 bg-white/80 px-4 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 backdrop-blur-sm"
+                  required
+                />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className="w-full border border-gray-300 bg-white/80 px-4 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 backdrop-blur-sm"
+                  required
+                />
 
-                <div className="mt-6 text-sm">
-                  <p className="text-gray-600">
-                    Don’t have an account?{' '}
-                    <button
-                      onClick={() => setIsLoginView(false)}
-                      className="font-medium underline hover:text-gray-900"
-                    >
-                      Create one
-                    </button>
-                  </p>
-                </div>
-              </>
-            ) : (
-              <>
-                <h2 className="text-2xl font-light text-gray-900">Create Account</h2>
-                <form onSubmit={handleSignUp} className="mt-6 space-y-4">
-                  <div className="grid grid-cols-2 gap-3">
-                    <input
-                      type="text"
-                      placeholder="First Name"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 bg-white"
-                      required
-                    />
-                    <input
-                      type="text"
-                      placeholder="Last Name"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 bg-white"
-                      required
-                    />
-                  </div>
-
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 bg-white"
-                    required
-                  />
-
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 bg-white"
-                    required
-                  />
-
-                  <button
-                    type="submit"
-                    className="w-full bg-gray-900 text-white py-3 rounded-md text-sm font-bold uppercase tracking-wider hover:bg-gray-700 transition-colors"
+                <div className="flex justify-end">
+                  <Link
+                    to="/forgot"
+                    className="text-sm underline text-gray-700 hover:text-gray-900"
                   >
-                    Create
-                  </button>
-                </form>
-
-                <div className="mt-6 text-sm">
-                  <p className="text-gray-600">
-                    Already have an account?{' '}
-                    <button
-                      onClick={() => setIsLoginView(true)}
-                      className="font-medium underline hover:text-gray-900"
-                    >
-                      Sign In
-                    </button>
-                  </p>
+                    Forgot your password?
+                  </Link>
                 </div>
-              </>
-            )}
-          </div>
+
+                <button
+                  type="submit"
+                  className="w-full border border-gray-800 py-3 rounded-md text-gray-800 font-semibold uppercase tracking-wide hover:bg-gray-800 hover:text-white transition"
+                >
+                  Sign In
+                </button>
+              </form>
+
+              <div className="mt-6 text-center text-sm text-gray-700">
+                Don’t have an account?{" "}
+                <button
+                  onClick={() => setIsLoginView(false)}
+                  className="underline font-medium hover:text-gray-900"
+                >
+                  Sign up!
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <h2 className="text-3xl font-semibold text-gray-800 mb-8 text-center">
+                Create Account
+              </h2>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-2 gap-3">
+                  <input
+                    type="text"
+                    placeholder="First Name"
+                    className="border border-gray-300 bg-white/80 px-4 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 backdrop-blur-sm"
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    className="border border-gray-300 bg-white/80 px-4 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 backdrop-blur-sm"
+                    required
+                  />
+                </div>
+                <input
+                  type="email"
+                  placeholder="Email"
+                  className="w-full border border-gray-300 bg-white/80 px-4 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 backdrop-blur-sm"
+                  required
+                />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className="w-full border border-gray-300 bg-white/80 px-4 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 backdrop-blur-sm"
+                  required
+                />
+
+                <button
+                  type="submit"
+                  className="w-full bg-gray-800 text-white py-3 rounded-md font-semibold uppercase tracking-wide hover:bg-gray-700 transition"
+                >
+                  Create
+                </button>
+              </form>
+
+              <div className="mt-6 text-center text-sm text-gray-700">
+                Already have an account?{" "}
+                <button
+                  onClick={() => setIsLoginView(true)}
+                  className="underline font-medium hover:text-gray-900"
+                >
+                  Sign in
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
