@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kyro-app
+  namespace: argocd  # Using the namespace you created earlier
+spec:
+  replicas: 2        # Runs 2 copies for high availability
+  selector:
+    matchLabels:
+      app: kyro
+  template:
+    metadata:
+      labels:
+        app: kyro
+    spec:
+      containers:
+      - name: kyro-container
+        image: suryaproo/kyro:latest # Replace with your Docker Hub name
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kyro-service
+  namespace: argocd
+spec:
+  selector:
+    app: kyro
+  ports:
+    - protocol: TCP
+      port: 80          # Port accessible outside the cluster
+      targetPort: 80    # Port the container is listening on
+  type: NodePort        # Allows access via the EC2 IP
